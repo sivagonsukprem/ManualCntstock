@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือการเช็ค Stock สินค้า — SHOP20</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sarabun', 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a202c; }
+
+  .cover {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+    color: white; text-align: center; padding: 60px 20px 50px;
+  }
+  .cover h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+  .cover h1 span.mm { display: block; font-size: 1.2rem; opacity: .85; margin-top: 4px; }
+  .cover p.sub  { font-size: 1rem; opacity: .8; margin-top: 6px; }
+  .cover p.sub span.mm { display: block; font-size: .88rem; opacity: .75; }
+  .cover .badge {
+    display: inline-block; margin-top: 18px;
+    background: rgba(255,255,255,.18); border-radius: 999px;
+    padding: 6px 20px; font-size: .85rem; letter-spacing: .5px;
+  }
+
+  .toc {
+    max-width: 700px; margin: 30px auto; background: white;
+    border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    padding: 24px 28px;
+  }
+  .toc h2 { font-size: 1.05rem; color: #2d6a9f; margin-bottom: 14px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+  .toc h2 span.mm { display: block; font-size: .88rem; color: #64748b; font-weight: 400; }
+  .toc-section { margin-bottom: 10px; }
+  .toc-section-title { font-weight: 700; color: #1e3a5f; font-size: .93rem; margin-bottom: 4px; }
+  .toc-section-title span.mm { display: block; font-size: .8rem; color: #64748b; font-weight: 400; }
+  .toc ul { list-style: none; padding-left: 14px; }
+  .toc ul li { padding: 3px 0; font-size: .85rem; color: #4a5568; }
+  .toc ul li::before { content: "▸ "; color: #2d6a9f; }
+  .toc ul li span.mm { display: block; font-size: .78rem; color: #94a3b8; padding-left: 10px; }
+  .toc a { color: inherit; text-decoration: none; }
+  .toc a:hover { color: #2d6a9f; }
+
+  .section-header {
+    max-width: 700px; margin: 36px auto 0;
+    background: #1e3a5f; color: white;
+    border-radius: 14px 14px 0 0; padding: 14px 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-header .num {
+    background: white; color: #1e3a5f; border-radius: 50%;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.1rem; }
+  .section-header h2 span.mm { display: block; font-size: .82rem; opacity: .8; font-weight: 400; margin-top: 2px; }
+  .section-header p  { font-size: .8rem; opacity: .75; margin-top: 2px; }
+  .section-header p span.mm { display: block; }
+
+  .steps-wrap {
+    max-width: 700px; margin: 0 auto 8px;
+    background: white; border-radius: 0 0 14px 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    padding: 8px 0 20px;
+  }
+
+  .step {
+    display: flex; gap: 0; padding: 18px 24px 18px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+    background: #2d6a9f; color: white; font-weight: 700; font-size: .9rem;
+    display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .step-body { flex: 1; padding-left: 14px; }
+  .step-body h3 { font-size: .98rem; font-weight: 700; color: #1e3a5f; margin-bottom: 2px; }
+  .step-body h3 span.mm { display: block; font-size: .83rem; color: #64748b; font-weight: 400; margin-top: 1px; margin-bottom: 6px; }
+  .step-body p  { font-size: .86rem; color: #4a5568; line-height: 1.65; margin-bottom: 6px; }
+  .step-body p span.mm { display: block; font-size: .8rem; color: #64748b; line-height: 1.6; margin-top: 2px; }
+  .step-body .note {
+    background: #fffbeb; border-left: 3px solid #f59e0b;
+    padding: 8px 12px; border-radius: 0 8px 8px 0;
+    font-size: .82rem; color: #92400e; margin-bottom: 10px;
+  }
+  .step-body .note span.mm { display: block; font-size: .77rem; color: #b45309; margin-top: 2px; }
+  .step-body .tip {
+    background: #f0fdf4; border-left: 3px solid #22c55e;
+    padding: 8px 12px; border-radius: 0 8px 8px 0;
+    font-size: .82rem; color: #166534; margin-bottom: 10px;
+  }
+  .step-body .tip span.mm { display: block; font-size: .77rem; color: #15803d; margin-top: 2px; }
+
+  .img-box {
+    border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;
+    margin-top: 10px; text-align: center; background: #f8fafc;
+  }
+  .img-box img {
+    max-width: 320px; width: 100%; display: block; margin: 0 auto;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .img-box img:hover { opacity: .92; }
+  .img-box .caption {
+    font-size: .78rem; color: #94a3b8; padding: 6px 10px;
+    border-top: 1px solid #e2e8f0; background: #f8fafc;
+  }
+  .img-box .caption span.mm { display: block; font-size: .73rem; color: #cbd5e1; }
+
+  #lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
+    z-index:999; align-items:center; justify-content:center; }
+  #lb.open { display:flex; }
+  #lb img { max-width:90vw; max-height:90vh; border-radius:12px; }
+  #lb-close {
+    position:absolute; top:16px; right:20px; color:white; font-size:2rem;
+    cursor:pointer; line-height:1; background:rgba(0,0,0,.4);
+    border-radius:50%; width:40px; height:40px; display:flex;
+    align-items:center; justify-content:center;
+  }
+
+  footer { text-align: center; padding: 30px 20px; color: #94a3b8; font-size: .8rem; }
+  footer span.mm { display: block; font-size: .75rem; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <h1>📦 คู่มือการเช็ค Stock สินค้า
+    <span class="mm">ကုန်ပစ္စည်းစတော့စစ်ဆေးနည်း လက်စွဲစာ</span>
+  </h1>
+  <p class="sub">ระบบบริหารสต็อก SHOP20
+    <span class="mm">SHOP20 စတော့စီမံခန့်ခွဲမှုစနစ်</span>
+  </p>
+  <div class="badge">นับสต็อก · ยอดคงเหลือ · รายการ ADJUST</div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>สารบัญ <span class="mm">မာတိကာ</span></h2>
+
+  <div class="toc-section">
+    <div class="toc-section-title">1. นับสต็อกสินค้า (Scan บาร์โค้ด)
+      <span class="mm">၁. ကုန်ပစ္စည်းရေတွက်ခြင်း (ဘားကုဒ်စကန်ဖတ်ခြင်း)</span>
+    </div>
+    <ul>
+      <li><a href="#s1-1">เปิดเมนูนับสต็อก <span class="mm">စတော့ရေတွက်မီနူးဖွင့်ခြင်း</span></a></li>
+      <li><a href="#s1-2">เปิดกล้องสแกนบาร์โค้ด <span class="mm">ဘားကုဒ်စကန်ကင်မရာဖွင့်ခြင်း</span></a></li>
+      <li><a href="#s1-3">กำลังสแกน <span class="mm">စကန်ဖတ်နေစဉ်</span></a></li>
+      <li><a href="#s1-4">สแกนสำเร็จ <span class="mm">စကန်ဖတ်အောင်မြင်ခြင်း</span></a></li>
+      <li><a href="#s1-5">กรณีไม่พบสินค้าในระบบ <span class="mm">စနစ်တွင်ကုန်မတွေ့သောအခါ</span></a></li>
+      <li><a href="#s1-6">ใส่ยอดที่นับได้จริง <span class="mm">ရေတွက်ရာဂဏန်းထည့်ခြင်း</span></a></li>
+      <li><a href="#s1-7">กรอกชื่อสินค้า <span class="mm">ကုန်ပစ္စည်းအမည်ရိုက်ထည့်ခြင်း</span></a></li>
+      <li><a href="#s1-8">ระบบบันทึกรายการแล้ว <span class="mm">စနစ်မှသိမ်းဆည်းပြီးစီးခြင်း</span></a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">2. ยอดคงเหลือในสต็อก
+      <span class="mm">၂. စတော့ကျန်ရှိသောပမာဏ</span>
+    </div>
+    <ul>
+      <li><a href="#s2-1">กดปุ่มยอดคงเหลือ <span class="mm">ကျန်ရှိသောပမာဏခလုတ်နှိပ်ခြင်း</span></a></li>
+      <li><a href="#s2-2">ค้นหาชื่อสินค้า <span class="mm">ကုန်ပစ္စည်းအမည်ရှာဖွေခြင်း</span></a></li>
+      <li><a href="#s2-3">กลับไปเมนูหลัก <span class="mm">မီနူးမှူသို့ပြန်သွားခြင်း</span></a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">3. รายการ ADJUST
+      <span class="mm">၃. ADJUST စာရင်း</span>
+    </div>
+    <ul>
+      <li><a href="#s3-1">ระบุวันที่นับสต็อก <span class="mm">စတော့ရေတွက်သောရက်သတ်မှတ်ခြင်း</span></a></li>
+      <li><a href="#s3-2">ระบบแสดงรายการที่ปรับยอด <span class="mm">ပြင်ဆင်ပြောင်းလဲမှုစာရင်းကြည့်ရှုခြင်း</span></a></li>
+      <li><a href="#s3-3">ดูรายละเอียดรายการ <span class="mm">အသေးစိတ်ကြည့်ရှုခြင်း</span></a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== SECTION 1 ===================== -->
+<div class="section-header" id="sec1">
+  <div class="num">1</div>
+  <div>
+    <h2>นับสต็อกสินค้า
+      <span class="mm">ကုန်ပစ္စည်းစတော့ရေတွက်ခြင်း</span>
+    </h2>
+    <p>สแกนบาร์โค้ดสินค้าเพื่อบันทึกยอดนับจริง
+      <span class="mm">ကုန်ပစ္စည်းဘားကုဒ်စကန်ဖတ်၍ အစစ်အမှန်ရေတွက်မှတ်တမ်းတင်ခြင်း</span>
+    </p>
+  </div>
+</div>
+
+<div class="steps-wrap">
+
+  <!-- Step 1 -->
+  <div class="step" id="s1-1">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>เปิดเมนูหน้าหลัก — เลือก "นับสต็อกสินค้า"
+        <span class="mm">မီနူးမှူဖွင့်၍ "ကုန်ပစ္စည်းရေတွက်ခြင်း" ရွေးချယ်ပါ</span>
+      </h3>
+      <p>กดปุ่มเมนู (☰) มุมบนซ้าย แล้วเลือกเมนู <strong>นับสต็อกสินค้า</strong> ในหมวด "หน้าร้าน"
+        <span class="mm">ဘယ်ဘက်အပေါ်ထောင့်ရှိ မီနူး (☰) ကိုနှိပ်ပြီး "ဆိုင်ခန်း" အပိုင်းတွင် <strong>ကုန်ပစ္စည်းရေတွက်ခြင်း</strong> ကိုရွေးပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="1 img1.jpg" alt="หน้าเมนูหลัก" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 1 — หน้าเมนูหลัก SHOP20
+          <span class="mm">ပုံ ၁ — SHOP20 မီနူးမှူစာမျက်နှာ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step" id="s1-2">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>กดปุ่ม "เปิดกล้องสแกนบาร์โค้ด"
+        <span class="mm">"ဘားကုဒ်စကန်ကင်မရာဖွင့်ရန်" ခလုတ်နှိပ်ပါ</span>
+      </h3>
+      <p>เมื่อเข้าหน้า <strong>นับสต็อกสินค้า</strong> แล้ว จะเห็นช่องกล้องสีดำอยู่กลางหน้า กดปุ่มสีน้ำเงิน <strong>"เปิดกล้องสแกนบาร์โค้ด"</strong> เพื่อเปิดกล้อง
+        <span class="mm"><strong>ကုန်ပစ္စည်းရေတွက်ခြင်း</strong> စာမျက်နှာသို့ဝင်သောအခါ အမည်းရောင်ကင်မရာဧရိယာကိုတွေ့ရမည်။ အပြာရောင်ခလုတ် <strong>"ဘားကုဒ်စကန်ကင်မရာဖွင့်ရန်"</strong> ကိုနှိပ်ပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="2 img2.jpg" alt="หน้านับสต็อก" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 2 — หน้านับสต็อก พร้อมปุ่มเปิดกล้อง
+          <span class="mm">ပုံ ၂ — ကုန်ပစ္စည်းရေတွက်စာမျက်နှာ၊ ကင်မရာဖွင့်ရန်ခလုတ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step" id="s1-3">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>กำลัง Scan สินค้า
+        <span class="mm">ကုန်ပစ္စည်းစကန်ဖတ်နေစဉ်</span>
+      </h3>
+      <p>กล้องจะเปิดขึ้น มีกรอบสีเขียวตรงกลาง <strong>จ่อบาร์โค้ดสินค้าเข้าไปในกรอบ</strong> ระบบจะอ่านบาร์โค้ดอัตโนมัติ
+        <span class="mm">ကင်မရာဖွင့်လာသောအခါ အစိမ်းရောင်ဘောင်ပေါ်လာမည်။ <strong>ကုန်ပစ္စည်း၏ဘားကုဒ်ကို ဘောင်အတွင်းသို့ ထောင်ပါ</strong> — စနစ်မှ အလိုအလျောက်ဖတ်ရှုမည်</span>
+      </p>
+      <div class="tip">เคล็ดลับ: ถือกล้องให้นิ่ง แสงเพียงพอ จะช่วยให้สแกนเร็วขึ้น
+        <span class="mm">အကြံပြုချက်: ကင်မရာကိုတည်ငြိမ်စွာကိုင်ပြီး အလင်းလုံလောက်မှ အမြန်ဖတ်ရမည်</span>
+      </div>
+      <div class="img-box">
+        <img src="3 img3.jpg" alt="กำลัง scan" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 3 — กล้องเปิด กำลังสแกนบาร์โค้ด
+          <span class="mm">ပုံ ၃ — ကင်မရာဖွင့်၍ ဘားကုဒ်စကန်ဖတ်နေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step" id="s1-4">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>สแกนสำเร็จ — ระบบอ่านบาร์โค้ดได้
+        <span class="mm">စကန်ဖတ်အောင်မြင်ခြင်း — စနစ်မှဘားကုဒ်ဖတ်ရှုနိုင်ပြီ</span>
+      </h3>
+      <p>เมื่อกล้องอ่านบาร์โค้ดได้ จะแสดงรหัสสินค้าที่กรอบล่าง ระบบจะค้นหาสินค้าให้อัตโนมัติ
+        <span class="mm">ကင်မရာမှ ဘားကုဒ်ဖတ်ရှုနိုင်သောအခါ ကုန်ပစ္စည်းကုဒ်ကို အောက်ဘောင်တွင်ပြသမည်။ စနစ်မှ ကုန်ပစ္စည်းကို အလိုအလျောက်ရှာဖွေမည်</span>
+      </p>
+      <div class="img-box">
+        <img src="4 img4.jpg" alt="สแกนสำเร็จ" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 4 — สแกนสำเร็จ แสดงรหัสบาร์โค้ด
+          <span class="mm">ပုံ ၄ — စကန်ဖတ်အောင်မြင်၍ ဘားကုဒ်ကုဒ်ပြသနေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step" id="s1-5">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>กรณีไม่พบสินค้าในระบบ
+        <span class="mm">စနစ်တွင်ကုန်ပစ္စည်းမတွေ့သောအခါ</span>
+      </h3>
+      <p>ถ้าบาร์โค้ดนั้น <strong>ไม่มีในระบบ</strong> จะขึ้นหน้าต่างสีส้ม <strong>"ไม่พบสินค้าในระบบ"</strong> ให้กรอกชื่อสินค้าเอง แล้วกด บันทึก
+        <span class="mm">ဘားကုဒ်သည် <strong>စနစ်တွင်မရှိပါက</strong> လိမ်မော်ရောင်ဝင်းဒိုး <strong>"စနစ်တွင်ကုန်မတွေ့"</strong> ပေါ်လာမည်။ ကုန်ပစ္စည်းအမည်ကိုကိုယ်တိုင်ရိုက်ထည့်ပြီး သိမ်းဆည်းပါ</span>
+      </p>
+      <div class="note">หมายเหตุ: สินค้าใหม่ที่ยังไม่มีในระบบ สามารถกรอกชื่อแล้วบันทึกได้เลย
+        <span class="mm">မှတ်ချက်: စနစ်တွင်မရှိသေးသောကုန်ပစ္စည်းအသစ်များကို အမည်ရိုက်ထည့်၍ သိမ်းဆည်းနိုင်သည်</span>
+      </div>
+      <div class="img-box">
+        <img src="5 img5.jpg" alt="ไม่พบสินค้า" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 5 — ไม่พบสินค้าในระบบ ให้กรอกชื่อเอง
+          <span class="mm">ပုံ ၅ — စနစ်တွင်ကုန်မတွေ့၊ ကိုယ်တိုင်အမည်ရိုက်ထည့်ရန်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step" id="s1-6">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <h3>ใส่ยอดที่นับได้จริง
+        <span class="mm">ရေတွက်ရရှိသောအစစ်အမှန်ဂဏန်းထည့်ခြင်း</span>
+      </h3>
+      <p>กดที่ช่อง <strong>"จำนวนที่นับได้จริง"</strong> แล้วพิมพ์จำนวนสินค้าที่นับได้ จากนั้นกด <strong>บันทึก</strong>
+        <span class="mm"><strong>"ရေတွက်ရရှိသောအစစ်အမှန်အရေအတွက်"</strong> ဘောက်စ်ကိုနှိပ်ပြီး ရေတွက်ရရှိသောအရေအတွက်ကိုရိုက်ထည့်ပါ၊ ထို့နောက် <strong>သိမ်းဆည်းပါ</strong> ကိုနှိပ်ပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="6 img6.jpg" alt="ใส่ยอด" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 6 — กรอกจำนวนที่นับได้จริง
+          <span class="mm">ပုံ ၆ — ရေတွက်ရရှိသောအစစ်အမှန်ဂဏန်းထည့်နေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 7 -->
+  <div class="step" id="s1-7">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <h3>กรอกชื่อสินค้า (กรณีไม่พบในระบบ)
+        <span class="mm">ကုန်ပစ္စည်းအမည်ရိုက်ထည့်ခြင်း (စနစ်တွင်မတွေ့သောအခါ)</span>
+      </h3>
+      <p>พิมพ์ชื่อสินค้าในช่อง หรือกดปุ่ม <strong>"ค้นหาจากคลังสินค้า"</strong> เพื่อเลือกชื่อสินค้าจากระบบ
+        <span class="mm">ဘောက်စ်တွင် ကုန်ပစ္စည်းအမည်ရိုက်ထည့်ပါ သို့မဟုတ် <strong>"ကုန်လှောင်ရုံမှရှာဖွေရန်"</strong> ခလုတ်နှိပ်၍ စနစ်မှ ကုန်ပစ္စည်းအမည်ရွေးချယ်ပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="7 img7.jpg" alt="กรอกชื่อสินค้า" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 7 — กรอกชื่อสินค้า
+          <span class="mm">ပုံ ၇ — ကုန်ပစ္စည်းအမည်ရိုက်ထည့်နေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 8 -->
+  <div class="step" id="s1-8">
+    <div class="step-num">8</div>
+    <div class="step-body">
+      <h3>ระบบบันทึกรายการเรียบร้อย
+        <span class="mm">စနစ်မှ မှတ်တမ်းတင်ပြီးစီးခြင်း</span>
+      </h3>
+      <p>หลังกด บันทึก ระบบจะแสดงรายการที่บันทึกแล้วด้านล่าง พร้อมข้อมูล <strong>ระบบ / นับได้ / ผลต่าง</strong> สามารถสแกนสินค้าต่อไปได้เลย
+        <span class="mm">သိမ်းဆည်းပြီးနောက် အောက်တွင် <strong>စနစ် / ရေတွက်ရ / ကွာဟချက်</strong> အချက်အလက်များနှင့်အတူ မှတ်တမ်းပြသမည်။ ဆက်လက်၍ ကုန်ပစ္စည်းများ စကန်ဖတ်နိုင်သည်</span>
+      </p>
+      <div class="tip">เมื่อสแกนครบแล้ว กดปุ่ม "หยุดสแกน" เพื่อปิดกล้อง
+        <span class="mm">စကန်ဖတ်ပြီးသောအခါ ကင်မရာပိတ်ရန် "စကန်ရပ်တန့်ရန်" ခလုတ်နှိပ်ပါ</span>
+      </div>
+      <div class="img-box">
+        <img src="8 img8.jpg" alt="บันทึกสำเร็จ" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 8 — ระบบบันทึกรายการสำเร็จ
+          <span class="mm">ပုံ ၈ — စနစ်မှ မှတ်တမ်းတင်အောင်မြင်ပြီးစီးခြင်း</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== SECTION 2 ===================== -->
+<div class="section-header" id="sec2">
+  <div class="num">2</div>
+  <div>
+    <h2>ยอดคงเหลือในสต็อก
+      <span class="mm">စတော့ကျန်ရှိသောပမာဏ</span>
+    </h2>
+    <p>ดูยอดสินค้าคงเหลือ เปรียบเทียบยอดระบบกับยอดนับจริง
+      <span class="mm">ကုန်ပစ္စည်းကျန်ပမာဏကြည့်ရှု၍ စနစ်ပမာဏနှင့် စစ်မှန်သောရေတွက်မှုနှိုင်းယှဉ်ခြင်း</span>
+    </p>
+  </div>
+</div>
+
+<div class="steps-wrap">
+
+  <!-- Step 9 -->
+  <div class="step" id="s2-1">
+    <div class="step-num">9</div>
+    <div class="step-body">
+      <h3>กดปุ่ม "ยอดคงเหลือในสต็อก"
+        <span class="mm">"စတော့ကျန်ရှိသောပမာဏ" ခလုတ်နှိပ်ပါ</span>
+      </h3>
+      <p>ในหน้านับสต็อก กดปุ่มสีเขียว <strong>"ยอดคงเหลือในสต็อก"</strong> ระบบจะแสดงยอดสินค้าทั้งหมดของสาขา
+        <span class="mm">ကုန်ပစ္စည်းရေတွက်စာမျက်နှာတွင် အစိမ်းရောင်ခလုတ် <strong>"စတော့ကျန်ရှိသောပမာဏ"</strong> ကိုနှိပ်ပါ — ဆိုင်ခွဲ၏ ကုန်ပစ္စည်းအားလုံးပမာဏပြသမည်</span>
+      </p>
+      <div class="img-box">
+        <img src="9 img9.jpg" alt="ยอดคงเหลือ" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 9 — หน้าแสดงยอดคงเหลือทุกสินค้า
+          <span class="mm">ပုံ ၉ — ကုန်ပစ္စည်းအားလုံး၏ ကျန်ရှိသောပမာဏစာမျက်နှာ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 10 -->
+  <div class="step" id="s2-2">
+    <div class="step-num">10</div>
+    <div class="step-body">
+      <h3>ค้นหาชื่อสินค้า
+        <span class="mm">ကုန်ပစ္စည်းအမည်ရှာဖွေခြင်း</span>
+      </h3>
+      <p>พิมพ์ชื่อหรือรหัสสินค้าในช่องค้นหา ระบบจะกรองรายการให้ทันที
+        <span class="mm">ရှာဖွေရေးဘောက်စ်တွင် ကုန်ပစ္စည်းအမည် သို့မဟုတ် ကုဒ်ကိုရိုက်ထည့်ပါ — စနစ်မှ ချက်ချင်းစစ်ဆင်မည်</span>
+      </p>
+      <div class="img-box">
+        <img src="10 img10.jpg" alt="ค้นหาสินค้า" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 10 — ค้นหาสินค้าในหน้ายอดคงเหลือ
+          <span class="mm">ပုံ ၁၀ — ကျန်ရှိသောပမာဏစာမျက်နှာတွင် ကုန်ပစ္စည်းရှာဖွေနေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 11 -->
+  <div class="step" id="s2-3">
+    <div class="step-num">11</div>
+    <div class="step-body">
+      <h3>กลับไปเมนูหลัก
+        <span class="mm">မီနူးမှူသို့ပြန်သွားခြင်း</span>
+      </h3>
+      <p>กดปุ่มเมนู (☰) แล้วเลือกเมนูที่ต้องการ หรือกดปุ่มกลับ ← เพื่อกลับหน้าก่อนหน้า
+        <span class="mm">မီနူး (☰) ကိုနှိပ်ပြီး လိုချင်သောမီနူးကိုရွေးပါ သို့မဟုတ် ← ပြန်သွားရန်ကိုနှိပ်ပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="11 img11.jpg" alt="เมนูหลัก" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 11 — กลับสู่เมนูหลัก
+          <span class="mm">ပုံ ၁၁ — မီနူးမှူသို့ပြန်သွားခြင်း</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== SECTION 3 ===================== -->
+<div class="section-header" id="sec3">
+  <div class="num">3</div>
+  <div>
+    <h2>รายการ ADJUST
+      <span class="mm">ADJUST စာရင်း</span>
+    </h2>
+    <p>ตรวจสอบรายการปรับยอดสต็อกตามวันที่
+      <span class="mm">ရက်စွဲအလိုက် စတော့ပမာဏပြင်ဆင်မှုစာရင်းစစ်ဆေးခြင်း</span>
+    </p>
+  </div>
+</div>
+
+<div class="steps-wrap">
+
+  <!-- Step 12 -->
+  <div class="step" id="s3-1">
+    <div class="step-num">12</div>
+    <div class="step-body">
+      <h3>ระบุวันที่นับสต็อก
+        <span class="mm">စတော့ရေတွက်သောရက်သတ်မှတ်ခြင်း</span>
+      </h3>
+      <p>กดปุ่มสีม่วง <strong>"รายการ ADJUST"</strong> จากหน้านับสต็อก จะเข้าสู่หน้าเลือกวันที่ กดที่ช่องวันที่แล้วเลือกวันที่ต้องการ จากนั้นกด <strong>"ค้นหา"</strong>
+        <span class="mm">ကုန်ပစ္စည်းရေတွက်စာမျက်နှာမှ သင်္ကြန်ရောင် <strong>"ADJUST စာရင်း"</strong> ခလုတ်နှိပ်ပါ — ရက်သတ်မှတ်ရာ စာမျက်နှာသို့ရောက်မည်။ ရက်ဘောက်စ်နှိပ်ပြီး ရက်ရွေးချယ်ကာ <strong>"ရှာဖွေရန်"</strong> နှိပ်ပါ</span>
+      </p>
+      <div class="img-box">
+        <img src="12 img12.jpg" alt="เลือกวันที่" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 12 — เลือกวันที่นับสต็อก
+          <span class="mm">ပုံ ၁၂ — စတော့ရေတွက်သောရက်ရွေးချယ်နေစဉ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 13 -->
+  <div class="step" id="s3-2">
+    <div class="step-num">13</div>
+    <div class="step-body">
+      <h3>ระบบแสดงรายการที่ปรับยอด
+        <span class="mm">ပမာဏပြင်ဆင်မှုစာရင်းပြသခြင်း</span>
+      </h3>
+      <p>ระบบจะแสดงรายการสินค้าที่มีการ ADJUST ในวันที่เลือก พร้อมข้อมูล <strong>ระบบ / นับได้ / ผลต่าง / ผู้นับ / เวลา</strong>
+        <span class="mm">ရွေးချယ်သောရက်တွင် ADJUST ပြုလုပ်ထားသောကုန်ပစ္စည်းများစာရင်း <strong>စနစ် / ရေတွက်ရ / ကွာဟချက် / ရေတွက်သူ / အချိန်</strong> အချက်အလက်များနှင့်အတူ ပြသမည်</span>
+      </p>
+      <div class="img-box">
+        <img src="13 img13.jpg" alt="รายการ adjust" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 13 — รายการ ADJUST ที่ปรับยอดแล้ว
+          <span class="mm">ပုံ ၁၃ — ပမာဏပြင်ဆင်ပြီး ADJUST စာရင်း</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 14 -->
+  <div class="step" id="s3-3">
+    <div class="step-num">14</div>
+    <div class="step-body">
+      <h3>ดูรายละเอียดและแจ้ง Telegram
+        <span class="mm">အသေးစိတ်ကြည့်ရှု၍ Telegram သို့အကြောင်းကြားခြင်း</span>
+      </h3>
+      <p>หน้านี้แสดงชื่อสินค้า รหัส ยอดระบบ ยอดนับได้ และผลต่าง สามารถกดปุ่ม <strong>"แจ้ง TELEGRAM"</strong> เพื่อส่งสรุปผลการนับไปยัง Telegram ของทีมงาน
+        <span class="mm">ဤစာမျက်နှာတွင် ကုန်ပစ္စည်းအမည်၊ ကုဒ်၊ စနစ်ပမာဏ၊ ရေတွက်ရသောပမာဏနှင့် ကွာဟချက်ကိုပြသည်။ <strong>"TELEGRAM သို့အကြောင်းကြားရန်"</strong> ခလုတ်နှိပ်၍ အဖွဲ့သို့ ရလဒ်ပေးပို့နိုင်သည်</span>
+      </p>
+      <div class="tip">แนะนำ: กด "แจ้ง TELEGRAM" เพื่อให้หัวหน้าหรือผู้รับผิดชอบรับทราบผลการนับด้วย
+        <span class="mm">အကြံပြုချက်: မန်နေဂျာ သို့မဟုတ် တာဝန်ရှိသူသိစေရန် "TELEGRAM သို့အကြောင်းကြားရန်" ကိုနှိပ်ပါ</span>
+      </div>
+      <div class="img-box">
+        <img src="14 img14.jpg" alt="รายการสุดท้าย" onclick="openLB(this.src)">
+        <div class="caption">รูปที่ 14 — สรุปรายการ ADJUST พร้อมปุ่มแจ้ง Telegram
+          <span class="mm">ပုံ ၁၄ — ADJUST စာရင်းချုပ်နှင့် Telegram အကြောင်းကြားရန်ခလုတ်</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  คู่มือการเช็ค Stock สินค้า — ระบบ SHOP20 &nbsp;|&nbsp; จัดทำสำหรับพนักงานหน้าร้าน
+  <span class="mm">ကုန်ပစ္စည်းစတော့စစ်ဆေးနည်း လက်စွဲစာ — SHOP20 စနစ် | ဆိုင်ဝန်ထမ်းများအတွက်</span>
+</footer>
+
+<div id="lb" onclick="closeLB()">
+  <div id="lb-close" onclick="closeLB()">✕</div>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+  function openLB(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb').classList.add('open');
+  }
+  function closeLB() {
+    document.getElementById('lb').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
+</body>
+</html>
